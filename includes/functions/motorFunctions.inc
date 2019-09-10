@@ -1,3 +1,6 @@
-void drive(float distance, bool forwardvoid drive_time(int drive_time,bool b_f){
-	
+void drive_time(float distance, bool forward, int BASETIME){
+	int speed = (forward)? (127):(-127);
+	motor[right_motor] = speed;
+	motor[left_motor]  = speed;
+	wait1Msec(distance * BASETIME);
 }

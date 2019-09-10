@@ -35,16 +35,15 @@
 \*-----------------------------------------------------------------------------------------------4246-*/
 
 
+void drive_time(float distance, bool forward, int BASETIME){
+	int speed = (forward)? (127):(-127);
+	motor[right_motor] = speed;
+	motor[left_motor]  = speed;
+	wait1Msec(distance * BASETIME);
+}
 //+++++++++++++++++++++++++++++++++++++++++++++| MAIN |+++++++++++++++++++++++++++++++++++++++++++++++
 task main()
 {
-	// wait1Msec(2000);						// Robot waits for 2000 milliseconds before executing program
-
-	// Move forward at full power for 3 seconds
-	// motor[right_motor] = 127;		  // Motor on port2 is run at full (127) power forward
-	// motor[left_motor]  = 127;		  // Motor on port3 is run at full (127) power forward
-	motor[arm_motor] = 50;
-	motor[claw_motor] = 50;
-	wait1Msec(500);			        // Robot runs previous code for 3000 milliseconds before moving on
-}												        // Program ends, and the robot stops
+	drive_time(0.25, false, 1700*2);
+}
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
