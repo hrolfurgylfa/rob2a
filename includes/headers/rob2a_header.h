@@ -1,7 +1,7 @@
-#ifndef MYHEADER_H_
-#define MYHEADER_H_
+#ifndef rob2a_header
+#define rob2a_header
 #endif
-#define BASETIME 1500
+#define BASETIME 1700
 #define FULLPOWER 127
 
-void drive(float distance, bool forward);
+void drive_time(float distance, bool forward, int BASETIME);
