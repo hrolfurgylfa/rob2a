@@ -13,19 +13,10 @@
 #pragma config(Motor,  port7,           arm_motor,     tmotorServoContinuousRotation, openLoop, reversed)
 #pragma config(Motor,  port10,          right_motor,   tmotorVex269, openLoop, encoder, encoderPort, dgtl7, 1000)
 
-//#include "../../includes/headers/rob2a_header.h"
-//#include "../../includes/functions/motorFunctions.inc"
 
-#define BASETIME_METER 3400
-#define FULLPOWER 127
+#include "../../includes/headers/rob2a_header.h"
+#include "../../includes/functions/motorFunctions.inc"
 
-void drive_time(float distance, bool forward, int BASETIME_METER){
-
-	int speed = (forward)? (127):(-127);
-	motor[right_motor] = speed;
-	motor[left_motor]  = speed;
-	wait1Msec(distance * BASETIME_METER);
-}
 
 task main(){
 
