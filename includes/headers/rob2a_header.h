@@ -5,4 +5,4 @@
 #define BASETIME_METER 3400
 #define FULLPOWER 127
 
-void drive_time(float distance, bool forward, int BASETIME);
+void drive_time(float distance, bool forward, int BASETIME_METER);
