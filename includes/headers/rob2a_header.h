@@ -7,4 +7,6 @@ const int BASETIME_METER = 3400;
 const int FULLPOWER = 127;
 
 //---------------------------|initialize functions|--------------------------------------------
+
 void drive_time(float distance, bool forward, int BASETIME_METER);
+void drive(float dist, bool forward, int BASE_DIST);
