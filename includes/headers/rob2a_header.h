@@ -5,6 +5,7 @@
 //-----------------------------|define variables|------------------------------------------------
 const int BASETIME_METER = 3400;
 const int FULLPOWER = 127;
+const int BASE_DEGREES_FOR_METER = 1080;
 
 //---------------------------|initialize functions|--------------------------------------------
 
