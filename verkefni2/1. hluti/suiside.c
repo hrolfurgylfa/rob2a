@@ -13,16 +13,20 @@
 #pragma config(Motor,  port7,           arm_motor,     tmotorServoContinuousRotation, openLoop, reversed)
 #pragma config(Motor,  port10,          right_motor,   tmotorVex269, openLoop, encoder, encoderPort, dgtl7, 1000)
 
+//---------------------------------------|INCLUDES|-------------------------------------------------------------------------------------------------------
 
 #include "../../includes/headers/rob2a_header.h"
 #include "../../includes/functions/motorFunctions.inc"
 
-
+//----------------------------------------|Main|----------------------------------------------------------------------------------------------------------
 task main(){
 
+	// Bíða 2 sec
 	wait1Msec(2000);
+
+	//for lykkjan hækkar distance bryetuna um 0.5 þangað til að hún er komin í 2.5
 	for(float distance = 0.5; distance <= 2.5; distance += 0.5){
-		drive_time(distance, true, BASETIME_METER);
-		drive_time(distance, false, BASETIME_METER);
+		drive_time(distance, true, BASETIME_METER); //lætur vélmennið keyra áfram með því að keyra fallið drive_time
+		drive_time(distance, false, BASETIME_METER); //lætur vélmennið keyra afturábak með því að keyra fallið drive_time
 	}
 }
