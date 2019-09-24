@@ -11,3 +11,4 @@ const int BASE_DEGREES_FOR_METER = 1080;
 
 void drive_time(float distance, bool forward, int BASETIME_METER);
 void drive(float dist, bool forward, int BASE_DIST);
+void keyra_begja(drive_turn_list, BASE_DEGREES_FOR_METER);

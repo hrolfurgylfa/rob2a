@@ -19,7 +19,7 @@ void drive(float dist, bool forward, int BASE_DIST){
 	{
 		int motor_right_value = abs(SensorValue[quadrature_right]);
 		int motor_left_value = abs(SensorValue[quadrature_left]);
-		
+
 		if(motor_right_value == motor_left_value) // If quadrature_right has counted the same amount as quadrature_left:
 		{
 			// Move Forward
@@ -39,5 +39,16 @@ void drive(float dist, bool forward, int BASE_DIST){
 			motor[left_motor]  = speed127;		    // Left Motor is run at power level 60
 		}
 	}
+}
+
+void keyra_begja(drive_turn_list, BASE_DEGREES_FOR_METER){
+	for(int i = 0; i < sizeof(drive_turn_list)/sizeof(drive_turn_list[0]); i + 2) {
+		bool forward = (drive_turn_list[i]>0)? (true):(false);
+		drive(abs(drive_turn_list[i]), forward, BASE_DEGREES_FOR_METER);
+
+		if (drive_turn_list[i+1] != 0) {
+			bool direction = (drive_turn_list[i+1]>0)? (true):(false);
+			turn(abs(drive_turn_list[i+1]), direction);
+		}
 	}
 }
