@@ -79,8 +79,9 @@ void turn(int deg, bool r_l){
 			motor[left_motor] = -127;
 
 	}
+	
 	motor[right_motor] = 0;
 	motor[left_motor] = 0;
 
-}
+	}
 }
