@@ -40,4 +40,36 @@ void drive(float dist, bool forward, int BASE_DIST){
 		}
 	}
 	}
+
+
+void turn(int deg, bool r_l){
+
+	if (r_l == true){
+
+		SensorValue[quadrature_right] = 0;
+		SensorValue[quadrature_left]  = 0;
+
+		while(deg > abs(SensorValue[quadrature_right])){
+
+			motor[right_motor] = -100;
+			motor[left_motor] = 127;
+			
+		}
+	}
+	else if (r_l == false){
+
+		SensorValue[quadrature_right] = 0;
+		SensorValue[quadrature_left]  = 0;
+
+		while(deg > abs(SensorValue[quadrature_left])){
+
+
+			motor[right_motor] = 100;
+			motor[left_motor] = -127;
+
+	}
+	motor[right_motor] = 0;
+	motor[left_motor] = 0;
+
+}
 }
