@@ -1,4 +1,4 @@
-#pragma config(Sensor, in1,    light_sensor,   sensorReflection)
+	#pragma config(Sensor, in1,    light_sensor,   sensorReflection)
 #pragma config(Sensor, in2,    line_follower_left, sensorLineFollower)
 #pragma config(Sensor, in3,    line_follower_middle, sensorLineFollower)
 #pragma config(Sensor, in4,    line_follower_right, sensorLineFollower)
@@ -21,11 +21,20 @@
 //----------------------------------------|Main|----------------------------------------------------------------------------------------------------------
 task main(){
     // Bíða 2 sec
-	wait1Msec(2000);
+	//wait1Msec(2000);
+	turn(360, true);
+	turn(360, false);
+	/*wait1Msec(2000);
+	motor[left_motor] = -127;
+	motor[right_motor] = -127;
+	wait1Msec(2000);*/
 
+
+/*
 	//for lykkjan hækkar distance bryetuna um 0.5 þangað til að hún er komin í 2.5
 	for(float distance = 0.5; distance <= 2.5; distance += 0.5){
 		drive(distance, true, BASE_DEGREES_FOR_METER); //lætur vélmennið keyra áfram 1 metra með því að keyra fallið drive
 		drive(distance, false, BASE_DEGREES_FOR_METER); //lætur vélmennið keyra afturábak 1 metra með því að keyra fallið drive
 	}
+	*/
 }

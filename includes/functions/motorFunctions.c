@@ -51,4 +51,36 @@ void keyra_begja(drive_turn_list, BASE_DEGREES_FOR_METER){
 			turn(abs(drive_turn_list[i+1]), direction);
 		}
 	}
+
+
+void turn(int deg, bool r_l){
+
+	if (r_l == true){
+
+		SensorValue[quadrature_right] = 0;
+		SensorValue[quadrature_left]  = 0;
+
+		while(deg > abs(SensorValue[quadrature_right])){
+
+			motor[right_motor] = -100;
+			motor[left_motor] = 127;
+			
+		}
+	}
+	else if (r_l == false){
+
+		SensorValue[quadrature_right] = 0;
+		SensorValue[quadrature_left]  = 0;
+
+		while(deg > abs(SensorValue[quadrature_left])){
+
+
+			motor[right_motor] = 100;
+			motor[left_motor] = -127;
+
+	}
+	motor[right_motor] = 0;
+	motor[left_motor] = 0;
+
+}
 }
