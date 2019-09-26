@@ -53,7 +53,8 @@ void drive_turn(int* drive_turn_list, int BASE_DEGREES_FOR_METER){
 		if (num_1 > 0){ forward = true; }
 		else { forward = false; }
 
-		float drive_distance = 0.5;
+		float num_1_float = *(float *)&num_1;
+		float drive_distance = abs(num_1_float) / 100;
 		writeDebugStream("Afram: %f ",drive_distance);
 
 		drive(drive_distance, forward, BASE_DEGREES_FOR_METER);
