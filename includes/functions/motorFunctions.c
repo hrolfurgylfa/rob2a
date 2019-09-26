@@ -42,28 +42,28 @@ void drive(float dist, bool forward, int BASE_DIST){
 }
 
 void drive_turn(int* drive_turn_list, int BASE_DEGREES_FOR_METER){
-	for(int i = 0; i < 30; i + 2) {
+	for(int i = 0; i < 30; i = i + 2) {
 		int num_1 = drive_turn_list[i];
 		int num_2 = drive_turn_list[i+1];
+		writeDebugStream("Num 1: %d ",num_1);
+		writeDebugStream("Num 2: %d ",num_2);
+		writeDebugStream("i: %d ",i);
 
 		bool forward;
 		if (num_1 > 0){ forward = true; }
 		else { forward = false; }
 
-		// Print
-		int print_value = abs(num_1);
-		char *print_value_string;
-		sprintf(print_value_string, "%d", print_value);
-		writeDebugStream(motor_right_value_string);
-		writeDebugStream("\n");
+		float drive_distance = 0.5;
+		writeDebugStream("Afram: %f ",drive_distance);
 
-		drive(abs(num_1), forward, BASE_DEGREES_FOR_METER);
+		drive(drive_distance, forward, BASE_DEGREES_FOR_METER);
 
 		if (num_2 != 0) {
 			bool direction;
 			if (num_2 > 0){ direction = true; }
 			else { direction = false; }
-
+			
+			writeDebugStream("Begja: %d \n",abs(num_2));
 			turn(abs(num_2), direction);
 		}
 	}
