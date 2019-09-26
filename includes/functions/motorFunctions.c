@@ -41,17 +41,33 @@ void drive(float dist, bool forward, int BASE_DIST){
 	}
 }
 
-void keyra_begja(drive_turn_list, BASE_DEGREES_FOR_METER){
-	for(int i = 0; i < sizeof(drive_turn_list)/sizeof(drive_turn_list[0]); i + 2) {
-		bool forward = (drive_turn_list[i]>0)? (true):(false);
-		drive(abs(drive_turn_list[i]), forward, BASE_DEGREES_FOR_METER);
+void drive_turn(int* drive_turn_list, int BASE_DEGREES_FOR_METER){
+	for(int i = 0; i < 30; i + 2) {
+		int num_1 = drive_turn_list[i];
+		int num_2 = drive_turn_list[i+1];
 
-		if (drive_turn_list[i+1] != 0) {
-			bool direction = (drive_turn_list[i+1]>0)? (true):(false);
-			turn(abs(drive_turn_list[i+1]), direction);
+		bool forward;
+		if (num_1 > 0){ forward = true; }
+		else { forward = false; }
+
+		// Print
+		int print_value = abs(num_1);
+		char *print_value_string;
+		sprintf(print_value_string, "%d", print_value);
+		writeDebugStream(motor_right_value_string);
+		writeDebugStream("\n");
+
+		drive(abs(num_1), forward, BASE_DEGREES_FOR_METER);
+
+		if (num_2 != 0) {
+			bool direction;
+			if (num_2 > 0){ direction = true; }
+			else { direction = false; }
+
+			turn(abs(num_2), direction);
 		}
 	}
-
+}
 
 void turn(int deg, bool r_l){
 
@@ -64,7 +80,7 @@ void turn(int deg, bool r_l){
 
 			motor[right_motor] = -100;
 			motor[left_motor] = 127;
-			
+
 		}
 	}
 	else if (r_l == false){
@@ -79,7 +95,7 @@ void turn(int deg, bool r_l){
 			motor[left_motor] = -127;
 
 	}
-	
+
 	motor[right_motor] = 0;
 	motor[left_motor] = 0;
 
