@@ -23,5 +23,5 @@ task main(){
   int drive_turn_list[] = {50, 90, 50, -90, 50, -90, 50, 90, 50, 90, 50, -90, 50, 90, 50, 90, 50, -90, 50, 90, 50, 90, 50, -90, 50, -90, 50, 90, 50, 0};
 
 	//for lykkjan hækkar distance bryetuna um 0.5 þangað til að hún er komin í 2.5
-	drive_turn(drive_turn_list, BASE_DEGREES_FOR_METER);
+	drive_turn(drive_turn_list, BASE_DEGREES_FOR_METER, BASE_TURN);
 }
