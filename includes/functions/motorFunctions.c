@@ -5,7 +5,11 @@ void drive_time(float distance, bool forward, int BASETIME_METER){
 	int speed = (forward)? (127):(-127);
 	motor[right_motor] = speed; // segir hægri mótorinum að keyra
 	motor[left_motor]  = speed; // segir mótorinum að keyra
+	
 	wait1Msec(distance * BASETIME_METER); // keyrir í sér tíma sem er reiknaður með breytunni distance og BASETIME_METER
+
+	motor[right_motor] = 0;
+	motor[left_motor] = 0;
 }
 
 void drive(float dist, bool forward, int BASE_DIST){
@@ -39,9 +43,12 @@ void drive(float dist, bool forward, int BASE_DIST){
 			motor[left_motor]  = speed127;		    // Left Motor is run at power level 60
 		}
 	}
+
+	motor[right_motor] = 0;
+	motor[left_motor]  = 0;
 }
 
-void drive_turn(int* drive_turn_list, int BASE_DEGREES_FOR_METER){
+void drive_turn(int* drive_turn_list, int BASE_DEGREES_FOR_METER, float BASE_TURN){
 	for(int i = 0; i < 30; i = i + 2) {
 		int num_1 = drive_turn_list[i];
 		int num_2 = drive_turn_list[i+1];
@@ -58,6 +65,7 @@ void drive_turn(int* drive_turn_list, int BASE_DEGREES_FOR_METER){
 		writeDebugStream("Afram: %f ",drive_distance);
 
 		drive(drive_distance, forward, BASE_DEGREES_FOR_METER);
+		wait1Msec(1000);
 
 		if (num_2 != 0) {
 			bool direction;
@@ -65,19 +73,20 @@ void drive_turn(int* drive_turn_list, int BASE_DEGREES_FOR_METER){
 			else { direction = false; }
 			
 			writeDebugStream("Begja: %d \n",abs(num_2));
-			turn(abs(num_2), direction);
+			turn(abs(num_2), direction, BASE_TURN);
+			wait1Msec(1000);
 		}
 	}
 }
 
-void turn(int deg, bool r_l){
+void turn(int deg, bool r_l, float BASE_TURN){
 
 	if (r_l == true){
 
 		SensorValue[quadrature_right] = 0;
 		SensorValue[quadrature_left]  = 0;
 
-		while(deg > abs(SensorValue[quadrature_right])){
+		while(deg * BASE_TURN > abs(SensorValue[quadrature_right])){
 
 			motor[right_motor] = -100;
 			motor[left_motor] = 127;
@@ -89,16 +98,14 @@ void turn(int deg, bool r_l){
 		SensorValue[quadrature_right] = 0;
 		SensorValue[quadrature_left]  = 0;
 
-		while(deg > abs(SensorValue[quadrature_left])){
-
+		while(deg * BASE_TURN > abs(SensorValue[quadrature_left])){
 
 			motor[right_motor] = 100;
 			motor[left_motor] = -127;
 
+		}
 	}
 
 	motor[right_motor] = 0;
 	motor[left_motor] = 0;
-
-	}
 }
