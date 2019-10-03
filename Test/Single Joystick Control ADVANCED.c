@@ -34,44 +34,24 @@
 \*----------------------------------------------------------------------------------------------------*/
 
 //+++++++++++++++++++++++++++++++++++++++++++++| MAIN |+++++++++++++++++++++++++++++++++++++++++++++++
-task main ()
-{
-  int joy_x;            // will hold the X value of the analog stick (choices below)
-  int joy_y;            // will hold the Y value of the analog stick (choices below)
-  int threshold = 10;   // helps to eliminate 'noise' from a joystick that isn't perfectly at (0,0)
+task main (){
 
-  while(1 == 1)
-  {
+    int joy_left;
+    int joy_right;
+    int threshold = 10;   // helps to eliminate 'noise' from a joystick that isn't perfectly at (0,0)
 
-    joy_x = vexRT[Ch1];   // This is the RIGHT analog stick.  For LEFT, change 'Ch1' to 'Ch4'.
-    joy_y = vexRT[Ch2];   // This is the RIGHT analog stick.  For LEFT, change 'Ch2' to 'Ch3'.
-    writeDebugStream("joy_x: %d ",joy_x);
-    writeDebugStream("joy_y: %d ",joy_y);
+    while(1 == 1){
 
-    // Forward, and swing turns: (both abs(X) and abs(Y) are above the threshold, and Y is POSITIVE)
-    if((abs(joy_x) > threshold) && (abs(joy_y) > threshold) && (joy_y > 0))
-    {
-      motor[left_motor]  = ((joy_y + joy_x)/2) + 27;
-      motor[right_motor] = (joy_y - joy_x)/2;
+        joy_left = vexRT[Ch1];
+        joy_right = vexRT[Ch3];
+
+        writeDebugStream("joy_x: %d ",joy_left);
+        writeDebugStream("joy_y: %d ",joy_right);
+        writeDebugStream("Hraði left: %d ",(joy_y + joy_x)/2);
+        writeDebugStream("\n");
+
+        motor[left_motor] = joy_left;
+        motor[right_motor] = joy_right;
     }
-    // Backwards and swing turns: (both abs(X) and abs(Y) are above the threshold, and Y is NEGATIVE)
-    else if((abs(joy_x) > threshold) && (abs(joy_y) > threshold) && (joy_y < 0))
-    {
-      motor[left_motor]  = ((joy_y - joy_x)/2) - 27;
-      motor[right_motor] = (joy_y + joy_x)/2;
-    }
-    // Turning in place: (abs(X) is above the threshold, abs(Y) is below the threshold)
-    else if((abs(joy_x) > threshold) && (abs(joy_y) < threshold))
-    {
-      motor[left_motor]  = joy_x + 27;
-      motor[right_motor] = (-1 * joy_x);
-    }
-    // Standing still: (both abs(X) and abs(Y) are below the threshold)
-    else
-    {
-      motor[left_motor]  = 0;
-      motor[right_motor] = 0;
-    }
-  }
 }
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
