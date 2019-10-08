@@ -50,6 +50,7 @@ void drive(float dist, bool forward, int BASE_DIST){
 	motor[left_motor]  = 0;
 }
 
+// Þetta fall takur inn lista af fyrst fjarlægð í cm og svo gráðum til þess að begja og keyrir eftir honum: [cm, degrees, cm, degrees]
 void drive_turn(int* drive_turn_list, int BASE_DEGREES_FOR_METER, float BASE_TURN, int arrey_length){
 	// Hérna nota ég variable sem var sent inn í fallið, arrey_length, vegna þess að það er ekki hægt að ná lengdini af pointer list
 	for(int i = 0; i < arrey_length; i = i + 2) {
