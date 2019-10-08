@@ -12,5 +12,6 @@ const float BASE_TURN = 3;
 
 void drive_time(float distance, bool forward, int BASETIME_METER);
 void drive(float dist, bool forward, int BASE_DIST);
-void turn(int deg, bool r_l, float BASE_TURN);
 void drive_turn(int* drive_turn_list, int BASE_DEGREES_FOR_METER);
+void turn(int deg, bool r_l, float BASE_TURN);
+void drive_controller(int left_forward, int right_forward);

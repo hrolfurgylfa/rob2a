@@ -109,3 +109,19 @@ void turn(int deg, bool r_l, float BASE_TURN){
 	motor[right_motor] = 0;
 	motor[left_motor] = 0;
 }
+
+void drive_controller(int left_forward, int right_forward, int threshold){
+	if(abs(left_forward) > threshold) {
+		motor[left_motor]  = (left_forward);   // Left Joystick Y value / 2.
+		writeDebugStream("left_forward: %f \n",left_forward);
+    } else {
+      	motor[left_motor]  = 0;                // Stop the left motor (cancel noise)
+    }
+
+    if(abs(right_forward) > threshold) {
+		motor[right_motor] = (right_forward);   // Right Joystick Y value / 2.
+		writeDebugStream("right_forward: %f \n",right_forward);
+    } else {
+      	motor[right_motor] = 0;                // Stop the right motor (cancel noise)
+    }
+}
