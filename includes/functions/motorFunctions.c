@@ -139,14 +139,14 @@ void drive_controller(int left_forward, int right_forward, int threshold){
     }
 }
 
-void arm_controller(bool upp_btn, bool down_btn) {
-	if (upp_btn = true && down_btn = true){
+void arm_controller(int upp_btn, int down_btn) {
+	if (upp_btn == 1 && down_btn == 1){
 		motor[arm_motor] = 0;
 	}
-	else if (upp_btn = true){
+	else if (upp_btn == 1){
 		motor[arm_motor] = 100;
 	}
-	else if (down_btn = true){
+	else if (down_btn == 1){
 		motor[arm_motor] = -100;
 	}
 	else {
@@ -154,14 +154,14 @@ void arm_controller(bool upp_btn, bool down_btn) {
 	}
 }
 
-void claw_controller(bool close_btn, bool open_btn) {
-	if (open_btn = true && down_btn = true) {
+void claw_controller(int close_btn, int open_btn) {
+	if (open_btn == 1 && close_btn == 1) {
 		motor[claw_motor] = 0;
 	}
-	else if (open_btn = true){
+	else if (open_btn == 1){
 		motor[claw_motor] = 100;
 	}
-	else if (close_btn = true){
+	else if (close_btn == 1){
 		motor[claw_motor] = -100;
 	}
 	else {
