@@ -138,3 +138,15 @@ void drive_controller(int left_forward, int right_forward, int threshold){
       	motor[right_motor] = 0;                // Stop the right motor (cancel noise)
     }
 }
+
+void arm_controller(int upp_btn, int down_btn) {
+	if (upp_btn = true && down_btn = true){
+		motor[arm_motor] = 0;
+	}
+	else if (upp_btn = true){
+		motor[arm_motor] = 100;
+	}
+	else if (down_btn = true){
+		motor[arm_motor] = -100;
+	}
+}
