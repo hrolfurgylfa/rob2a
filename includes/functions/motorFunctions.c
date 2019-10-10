@@ -161,5 +161,10 @@ void claw_controller(bool close_btn, bool open_btn) {
 	else if (open_btn = true){
 		motor[claw_motor] = 100;
 	}
-	else if ()
+	else if (close_btn = true){
+		motor[claw_motor] = -100;
+	}
+	else {
+		motor[claw_motor] = 0;
+	}
 }
