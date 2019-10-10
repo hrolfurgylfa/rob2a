@@ -5,7 +5,7 @@ void drive_time(float distance, bool forward, int BASETIME_METER){
 	int speed = (forward)? (127):(-127);
 	motor[right_motor] = speed; // segir hægri mótorinum að keyra
 	motor[left_motor]  = speed; // segir mótorinum að keyra
-	
+
 	wait1Msec(distance * BASETIME_METER); // keyrir í sér tíma sem er reiknaður með breytunni distance og BASETIME_METER
 
 	motor[right_motor] = 0;
@@ -81,7 +81,7 @@ void drive_turn(int* drive_turn_list, int BASE_DEGREES_FOR_METER, float BASE_TUR
 			// Hérna er ákveðið hvort að direction eigi að vera true eða false eftir því hvort num_2 (snúningurinn) sé í mínus eða plús
 			if (num_2 > 0){ direction = true; }
 			else { direction = false; }
-			
+
 			writeDebugStream("Begja: %d \n",abs(num_2));
 			turn(abs(num_2), direction, BASE_TURN);// Turn fallið keyrt
 			wait1Msec(1000);// Hérna er beðið svo að róbótinn verði nákvæmari þegar hann er að keyra brautina
@@ -155,7 +155,7 @@ void arm_controller(bool upp_btn, bool down_btn) {
 }
 
 void claw_controller(bool close_btn, bool open_btn) {
-	if (open_btn = true && down_btn = true) {
+	if (open_btn = true && close_btn = true) {
 		motor[claw_motor] = 0;
 	}
 	else if (open_btn = true){
