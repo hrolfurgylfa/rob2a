@@ -22,5 +22,6 @@
 task main(){
 	while(true) {
 		drive_controller(vexRT[Ch3], vexRT[Ch2], 10);
+		arm_controller(vexRT[Btn6U], vexRT[Btn6D]);
 	}
 }
