@@ -149,4 +149,7 @@ void arm_controller(int upp_btn, int down_btn) {
 	else if (down_btn = true){
 		motor[arm_motor] = -100;
 	}
+	else {
+		motor[arm_motor] = 0;
+	}
 }
