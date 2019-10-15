@@ -20,11 +20,19 @@
 
 //----------------------------------------|Main|----------------------------------------------------------------------------------------------------------
 task main(){
-	while(true) {
-		drive_controller(vexRT[Ch3], vexRT[Ch2], JOY_THREASHOLD);
-		writeDebugStream("Arm up: %d ",vexRT[Btn6U]);
-		writeDebugStream("Arm down: %d \n",vexRT[Btn6D]);
-		arm_controller(vexRT[Btn6U], vexRT[Btn6D]);
-		claw_controller(vexRT[Btn5U], vexRT[Btn5D]);
+	StartTask(emergency_stop);
+    int drive_turn_list[] = {50, 90, 50, -90, 50, -90, 50, 90, 50, 90, 50, -90, 50, 90, 50, 90, 50, -90, 50, 90, 50, 90, 50, -90, 50, -90, 50, 90, 50, 0};
+
+    drive_turn(drive_turn_list, BASE_DEGREES_FOR_METER, BASE_TURN, sizeof(drive_turn_list)/sizeof(int));
+}
+
+task emergency_stop(){
+	while(true){
+		writeDebugStream("Remote control stop: %d \n",vexRT[Btn7U]);
+		if (sensorValue[front_button] == 1 || vexRT[Btn7U] == 1){
+			break;
+		}
 	}
+	writeDebugStream("Stopping!!!\n");
+	StopAllTasks();
 }

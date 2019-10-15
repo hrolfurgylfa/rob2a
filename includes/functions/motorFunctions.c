@@ -56,9 +56,9 @@ void drive_turn(int* drive_turn_list, int BASE_DEGREES_FOR_METER, float BASE_TUR
 	for(int i = 0; i < arrey_length; i = i + 2) {
 		int num_1 = drive_turn_list[i];// Þetta er talan hversu mikið á að keyra
 		int num_2 = drive_turn_list[i+1];// Þetta er talan hversu mikið á að begja
-		writeDebugStream("Num 1: %d ",num_1);
-		writeDebugStream("Num 2: %d ",num_2);
-		writeDebugStream("i: %d ",i);
+		// writeDebugStream("Num 1: %d ",num_1);
+		// writeDebugStream("Num 2: %d ",num_2);
+		// writeDebugStream("i: %d ",i);
 
 		bool forward;// Þessi bool segir hvort að róbótinn eigi að fara afturábak eða áfram, þetta er svo sent inn í fallið drive();
 		// Hérna er ákveðið hvort að forward eigi að vera true eða false eftir því hvort num_1 (fjarlægðin sem á að keyra) sé í mínus eða plús
@@ -69,7 +69,7 @@ void drive_turn(int* drive_turn_list, int BASE_DEGREES_FOR_METER, float BASE_TUR
 		float num_1_float = *(float *)&num_1;
 		// Drive distance reiknað vegna þess að það kom inn í þetta fall sem cm en þarf að vera metrar fyrir drive() fallið
 		float drive_distance = abs(num_1_float) / 100;
-		writeDebugStream("Afram: %f ",drive_distance);
+		// writeDebugStream("Afram: %f ",drive_distance);
 
 		// Drive fallið kallað
 		drive(drive_distance, forward, BASE_DEGREES_FOR_METER);
@@ -82,7 +82,7 @@ void drive_turn(int* drive_turn_list, int BASE_DEGREES_FOR_METER, float BASE_TUR
 			if (num_2 > 0){ direction = true; }
 			else { direction = false; }
 
-			writeDebugStream("Begja: %d \n",abs(num_2));
+			// writeDebugStream("Begja: %d \n",abs(num_2));
 			turn(abs(num_2), direction, BASE_TURN);// Turn fallið keyrt
 			wait1Msec(1000);// Hérna er beðið svo að róbótinn verði nákvæmari þegar hann er að keyra brautina
 		}
@@ -126,14 +126,14 @@ void turn(int deg, bool r_l, float BASE_TURN){
 void drive_controller(int left_forward, int right_forward, int threshold){
 	if(abs(left_forward) > threshold) {
 		motor[left_motor]  = (left_forward);   // Left Joystick Y value / 2.
-		writeDebugStream("left_forward: %f \n",left_forward);
+		// writeDebugStream("left_forward: %f \n",left_forward);
     } else {
       	motor[left_motor]  = 0;                // Stop the left motor (cancel noise)
     }
 
     if(abs(right_forward) > threshold) {
 		motor[right_motor] = (right_forward);   // Right Joystick Y value / 2.
-		writeDebugStream("right_forward: %f \n",right_forward);
+		// writeDebugStream("right_forward: %f \n",right_forward);
     } else {
       	motor[right_motor] = 0;                // Stop the right motor (cancel noise)
     }
