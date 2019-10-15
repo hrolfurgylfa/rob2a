@@ -22,8 +22,6 @@
 task main(){
 	while(true) {
 		drive_controller(vexRT[Ch3], vexRT[Ch2], JOY_THREASHOLD);
-		writeDebugStream("Arm up: %d ",vexRT[Btn6U]);
-		writeDebugStream("Arm down: %d \n",vexRT[Btn6D]);
 		arm_controller(vexRT[Btn6U], vexRT[Btn6D]);
 		claw_controller(vexRT[Btn5U], vexRT[Btn5D]);
 	}
