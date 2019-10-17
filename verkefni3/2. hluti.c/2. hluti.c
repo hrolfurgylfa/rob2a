@@ -13,6 +13,29 @@
 #pragma config(Motor,  port7,           arm_motor,     tmotorServoContinuousRotation, openLoop, reversed)
 #pragma config(Motor,  port10,          right_motor,   tmotorVex269, openLoop, encoder, encoderPort, dgtl7, 1000)
 
+/*----------------------------------------------------------------------------------------------------*\
+|*                                         - Neyðarhnappur -                                          *|
+|*                                      ROBOTC on VEX 2.0 CORTEX                                      *|
+|*                                                                                                    *|
+|*                            Gerir kleyft að stoppa vélmennið með neyðarhnapp                        *|
+|*                                                                                                    *|
+|*                                                                                                    *|
+|*                                        ROBOT CONFIGURATION                                         *|
+|*    NOTES:                                                                                          *|
+|*    1)  Kalla fallið frá verkefni 2 hluta 3                                                         *|
+|*        	                                                                                          *|
+|*    2)  Taskið emergency_stop keyrir þangað til það er ýtt á hnappinn á fjarstýringunni             *|
+|*        eða hnappinn á vélmenninu                                                                   *|
+|*                                                                                                    *|
+|*    3)  Ef ýtt er á annaðhvort hnappinn þá slekkur emergency_stop á öllum taskum                    *|
+|*        og með því slekkur á main                                                                   *|
+|*                                                                                                    *|                                                                                                    
+|*    MOTORS & SENSORS:                                                                               *|
+|*    [I/O Port]          [Name]              [Type]                [Description]                     *|
+|*    Motor Port 1        left_motor          VEX 2-wire module     Left side motor                   *|
+|*    Motor Port 10       right_motor         VEX 2-wire module     Right side motor                  *|            
+\*----------------------------------------------------------------------------------------------------*/
+
 //---------------------------------------|INCLUDES|-------------------------------------------------------------------------------------------------------
 
 #include "../../includes/headers/rob2a_header.h"
