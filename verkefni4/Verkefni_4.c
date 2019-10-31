@@ -45,9 +45,20 @@
 task main(){
 	StartTask(emergency_stop);
     while (true) {
-		/* code */
+		if (SensorValue(light_sensor) < 250){
+			if (SensorValue(sonar) > 70 || SensorValue(sonar) == -1) {
+				motor[right_motor] = 127;
+				motor[left_motor]  = 127;
+			} else {
+				motor[right_motor] = 127;
+				motor[left_motor]  = -127;
+			}
+		}
+		else {
+			motor[right_motor] = 0;
+			motor[left_motor]  = 0;
+		}
 	}
-	
 }
 
 task emergency_stop(){
