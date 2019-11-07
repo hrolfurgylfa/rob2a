@@ -168,3 +168,7 @@ void claw_controller(int close_btn, int open_btn) {
 		motor[claw_motor] = 0;
 	}
 }
+
+void sonar_drive(int v){
+	
+}
