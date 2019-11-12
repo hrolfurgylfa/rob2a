@@ -33,7 +33,7 @@
 |*    Analog - Port 1     lineFollowerRIGHT   VEX Light Sensor      Front-right, facing down          *|
 |*    Analog - Port 2     lineFollowerCENTER  VEX Light Sensor      Front-center, facing down         *|
 |*    Analog - Port 3     lineFollowerLEFT    VEX Light Sensor      Front-left, facing down           *|
-\*-----------------------------------------------------------------------------------------------4246-*/
+\*----------------------------------------------------------------------------------------------------*/
 
 
 //---------------------------------------|INCLUDES|-------------------------------------------------------------------------------------------------------
