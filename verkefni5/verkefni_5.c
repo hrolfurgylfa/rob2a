@@ -45,7 +45,7 @@
 task main(){
 	StartTask(emergency_stop);
 
-   drive_line(60, 2675);
+   drive_line(60, LINE_THREASHOLD);
    writeDebugStream("\nEg er buinn!!!");
 }
 
