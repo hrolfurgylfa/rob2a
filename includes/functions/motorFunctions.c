@@ -169,6 +169,40 @@ void claw_controller(int close_btn, int open_btn) {
 	}
 }
 
-void sonar_drive(int v){
-	
+void drive_line(int speed, int threshold) {
+	while(true) {
+
+		bool rightSeeLine = SensorValue(line_follower_right) > threshold;
+		bool leftSeeLine = SensorValue(line_follower_left) > threshold;
+		bool middleSeeLine = SensorValue(line_follower_middle) > threshold;
+
+		// Ef myðju skynjarinn sér eitthvað þá heldur róbotinn bara áfram
+		if(middleSeeLine) {
+			writeDebugStream("Keyri beint\n");
+			// go straight
+			motor[left_motor] = speed;
+			motor[right_motor] = speed;
+		}
+
+		// Right sensor sér ekki línu en left sensor sér línu
+		else if(!rightSeeLine && (leftSeeLine || middleSeeLine)) {
+			writeDebugStream("Beygi til haegri\n");
+			// Begja til vinstri
+			motor[left_motor] = 0;
+			motor[right_motor] = speed;
+		}
+		// Left sensor sér ekki línu en right sensor sér línu
+		else if(!leftSeeLine && (rightSeeLine || middleSeeLine)) {
+			writeDebugStream("Beygi til vinstri\n");
+			// Begja til hægri
+			motor[left_motor] = speed;
+			motor[right_motor] = 0;
+		}
+		// Línan er búin
+		else {
+			motor[left_motor] = 0;
+			motor[right_motor] = 0;
+			break;
+		}
+	}
 }

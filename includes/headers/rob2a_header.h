@@ -19,4 +19,5 @@ void drive_controller(int left_forward, int right_forward);
 void arm_controller(int upp_btn, int down_btn);
 void claw_controller(int close_btn, int open_btn);
 void sonar_drive(int v);
+void drive_line(int speed, int threshold);
 task emergency_stop();
