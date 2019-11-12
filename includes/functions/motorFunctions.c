@@ -172,9 +172,9 @@ void claw_controller(int close_btn, int open_btn) {
 void drive_line(int speed, int threshold) {
 	while(true) {
 
-		int rightSeeLine = SensorValue(line_follower_right) > threshold;
-		int leftSeeLine = SensorValue(line_follower_left) > threshold;
-		int middleSeeLine = SensorValue(line_follower_middle) > threshold;
+		bool rightSeeLine = SensorValue(line_follower_right) > threshold;
+		bool leftSeeLine = SensorValue(line_follower_left) > threshold;
+		bool middleSeeLine = SensorValue(line_follower_middle) > threshold;
 
 		// Ef myðju skynjarinn sér eitthvað þá heldur róbotinn bara áfram
 		if(middleSeeLine) {
