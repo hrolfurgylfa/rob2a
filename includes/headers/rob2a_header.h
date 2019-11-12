@@ -16,4 +16,5 @@ void drive(float dist, bool forward, int BASE_DIST);
 void drive_turn(int* drive_turn_list, int BASE_DEGREES_FOR_METER, int arrey_length);
 void turn(int deg, bool r_l, float BASE_TURN);
 void drive_controller(int left_forward, int right_forward);
+void drive_line(int speed, int threshold);
 task emergency_stop();
