@@ -13,27 +13,27 @@
 #pragma config(Motor,  port7,           arm_motor,     tmotorServoContinuousRotation, openLoop, reversed)
 #pragma config(Motor,  port10,          right_motor,   tmotorVex269, openLoop, encoder, encoderPort, dgtl7, 1000)
 /*----------------------------------------------------------------------------------------------------*\
-|*                                         - Sjálfkeyring -                                            *|
+|*                             	    - Triple Sensor Line Tracking -                                   *|
 |*                                      ROBOTC on VEX 2.0 CORTEX                                      *|
 |*                                                                                                    *|
-|*                            Gerir vélmenninu kleyft að keyra endalaust sjálfur                      *|
-|*                                                                                                    *|
+|*                                  Eltir svarta línu á hvítu yfirborði                             *|
+|*                                        															  *|
 |*                                                                                                    *|
 |*                                        ROBOT CONFIGURATION                                         *|
 |*    NOTES:                                                                                          *|
-|*    1)  Keyrir bara ef það er nógu bjart                                                            *|
-|*        	                                                                                          *|
-|*    2)  Keyrir áfram ef það er ekkert fyrir framan vélmennið                                        *|
-|*                                                                                                    *|
-|*    3)  Beygir ef það er eitthvað fyrir framan hann                                                 *|
+|*    1)  Notar fallið drive_line sem tekur inn LINE_THRESHOLD sem er reiknað út áður.                *|
+|*    2)  LINE_THRESHOLD er constant breyta sem myndi vera æskilegt að breyta eftir aðstæðum.         *|
+|*          																						  *|
+|*               																					  *|
 |*                                                                                                    *|
 |*    MOTORS & SENSORS:                                                                               *|
 |*    [I/O Port]          [Name]              [Type]                [Description]                     *|
-|*    Motor Port 1        left_motor          VEX 2-wire module     Left side motor                   *|
-|*    Motor Port 10       right_motor         VEX 2-wire module     Right side motor                  *|
-|*    Sensor analog 1     light_sensor        VEX light sensor      Light sensor                      *|
-|*    Sensor digital 10   sonar               VEX Sonar sensor      Sonar sensor                      *|
-\*----------------------------------------------------------------------------------------------------*/
+|*    Motor  - Port 2     rightMotor          VEX 3-wire module     Right side motor                  *|
+|*    Motor  - Port 3     leftMotor           VEX 3-wire module     Left side motor                   *|
+|*    Analog - Port 1     lineFollowerRIGHT   VEX Light Sensor      Front-right, facing down          *|
+|*    Analog - Port 2     lineFollowerCENTER  VEX Light Sensor      Front-center, facing down         *|
+|*    Analog - Port 3     lineFollowerLEFT    VEX Light Sensor      Front-left, facing down           *|
+\*-----------------------------------------------------------------------------------------------4246-*/
 
 
 //---------------------------------------|INCLUDES|-------------------------------------------------------------------------------------------------------
