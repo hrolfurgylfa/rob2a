@@ -8,7 +8,7 @@ const int FULLPOWER = 127;
 const int BASE_DEGREES_FOR_METER = 1080;
 const float BASE_TURN = 3;
 const int JOY_THREASHOLD = 10;
-const int LINE_THREASHOLD = 0;
+const int LINE_THREASHOLD = 2675;
 //---------------------------|initialize functions|--------------------------------------------
 
 void drive_time(float distance, bool forward, int BASETIME_METER);
