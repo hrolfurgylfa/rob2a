@@ -171,21 +171,32 @@ void claw_controller(int close_btn, int open_btn) {
 
 void drive_line(int speed, int threshold) {
 	while(true) {
+
+		int rightSeeLine = SensorValue(line_follower_right) > threshold;
+		int leftSeeLine = SensorValue(line_follower_left) > threshold;
+		int middleSeeLine = SensorValue(line_follower_middle) > threshold;
+
 		// Ef myðju skynjarinn sér eitthvað þá heldur róbotinn bara áfram
-		if( SensorValue(line_follower_middle) > threshold ) {
+		if(middleSeeLine) {
+			writeDebugStream("Keyri beint\n");
 			// go straight
 			motor[left_motor] = speed;
 			motor[right_motor] = speed;
 		}
-		else if(SensorValue(line_follower_right) > threshold) {
-			// Begja til hægri
-			motor[left_motor] = speed;
-			motor[right_motor] = 0;
-		}
-		else if(SensorValue(line_follower_left) > threshold) {
+
+		// Right sensor sér ekki línu en left sensor sér línu
+		else if(!rightSeeLine && (leftSeeLine || middleSeeLine)) {
+			writeDebugStream("Beygi til haegri\n");
 			// Begja til vinstri
 			motor[left_motor] = 0;
 			motor[right_motor] = speed;
+		}
+		// Left sensor sér ekki línu en right sensor sér línu
+		else if(!leftSeeLine && (rightSeeLine || middleSeeLine)) {
+			writeDebugStream("Beygi til vinstri\n");
+			// Begja til hægri
+			motor[left_motor] = speed;
+			motor[right_motor] = 0;
 		}
 		// Línan er búin
 		else {
