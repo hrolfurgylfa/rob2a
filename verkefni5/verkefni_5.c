@@ -16,7 +16,7 @@
 |*                             	    - Triple Sensor Line Tracking -                                   *|
 |*                                      ROBOTC on VEX 2.0 CORTEX                                      *|
 |*                                                                                                    *|
-|*                                  Eltir svarta línu á hvítu yfirborði                             *|
+|*                                  Eltir svarta línu á hvítu yfirborði                               *|
 |*                                        															  *|
 |*                                                                                                    *|
 |*                                        ROBOT CONFIGURATION                                         *|
