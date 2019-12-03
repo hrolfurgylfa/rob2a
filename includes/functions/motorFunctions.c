@@ -205,6 +205,38 @@ void drive_line(int speed, int threshold) {
 	}
 }
 
+void finna_glas(int speed, int time_claw, int time_arm){
+
+	motor[claw_motor] = speed;
+	wait1Msec(time_claw);
+
+	drive_line(speed, LINE_THREASHOLD);
+
+	//motor[arm_motor] = speed;
+	//wait1Msec(time_arm);
+
+	//motor[arm_motor] = speed * -1;
+	//wait1Msec(time_arm);
+
+	motor[claw_motor] = speed * -1;
+	wait1Msec(time_claw);
+
+	//motor[arm_motor] = speed;
+	//wait1Msec(time_arm);
+
+	//turn(180,true,2.5);
+	find_line(true, 60);
+
+}
+
+void sleppa_glasi(int speed, int time_claw){
+	drive_line(speed, LINE_THREASHOLD);
+
+	motor[claw_motor] = speed;
+
+	wait1Msec(time_claw);
+}
+
 void find_line(bool lastRightSeeLine, bool lastLeftSeeLine, bool lastMiddleSeeLine, int speed, int line_sensor_threashold) {
 	
 	bool middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
