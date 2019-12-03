@@ -45,7 +45,10 @@
 task main(){
 	StartTask(emergency_stop);
 
-    finna_glas(100, 500, 1000);
+    drive_line_distance(2, 60, BASE_DEGREES_FOR_METER, LINE_THREASHOLD);
+    finna_glas(0, 1000);
+    drive_line_distance(2, 60, BASE_DEGREES_FOR_METER, LINE_THREASHOLD);
+    sleppa_glasi(0, 1000);
 }
 
 task emergency_stop(){

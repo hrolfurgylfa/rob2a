@@ -234,7 +234,7 @@ void find_line(bool turnRight, int speed, int line_sensor_threashold) {
 	motor[left_motor] = 0;
 }
 
-void finna_glas(int speed, int time_claw, int time_arm){
+void finna_glas(int speed, int time_claw){
 
 	if(speed == 0)
 		drive_line(speed, LINE_THREASHOLD);
@@ -257,6 +257,8 @@ void sleppa_glasi(int speed, int time_claw){
 
 void return_to_line(bool lastRightSeeLine, bool lastLeftSeeLine, bool lastMiddleSeeLine, int speed, int line_sensor_threashold) {
 	
+	writeDebugStream("Er ad finna linu aftur");
+
 	bool middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
 
 	while (!middleSeeLine) {
@@ -295,8 +297,6 @@ void drive_line_distance(float dist, int speed, int length_base_dist, int line_s
 
 	writeDebugStream("Eg er ad fara inn i while loop\n");
 	while(dist * length_base_dist > abs(SensorValue[quadrature_right])) {
-
-		writeDebugStream("Eg er ad keyra while looooops\n");
 		
 		lastRightSeeLine = rightSeeLine;
 		lastLeftSeeLine = leftSeeLine;
@@ -308,30 +308,39 @@ void drive_line_distance(float dist, int speed, int length_base_dist, int line_s
 
 		// Ef myðju skynjarinn sér eitthvað þá heldur róbotinn bara áfram
 		if(middleSeeLine) {
+
 			// go straight
+			writeDebugStream("Keyra beint\n");
 			motor[left_motor] = speed;
 			motor[right_motor] = speed;
 		}
 		// Right sensor sér ekki línu en left sensor sér línu
 		else if(!rightSeeLine && (leftSeeLine || middleSeeLine)) {
+			
 			// Begja til vinstri
+			writeDebugStream("Begja til vinstri\n");
 			motor[left_motor] = speed/2;
 			motor[right_motor] = speed;
 		}
 		// Left sensor sér ekki línu en right sensor sér línu
 		else if(!leftSeeLine && (rightSeeLine || middleSeeLine)) {
+			
 			// Begja til hægri
+			writeDebugStream("Begja til hægri\n");
 			motor[left_motor] = speed;
 			motor[right_motor] = speed/2;
 		}
 		// Línan er búin
 		else {
-			writeDebugStream("Eg finn ekki linuuuuuuuu\n");
-			return_to_line(lastRightSeeLine, lastLeftSeeLine, lastMiddleSeeLine, 70, line_sensor_threashold);
-			
-			rightSeeLine = SensorValue(line_follower_right) > line_sensor_threashold;
-			leftSeeLine = SensorValue(line_follower_left) > line_sensor_threashold;
-			middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
+			if (lastRightSeeLine || lastLeftSeeLine) {
+				return_to_line(lastRightSeeLine, lastLeftSeeLine, lastMiddleSeeLine, 70, line_sensor_threashold);
+				
+				rightSeeLine = SensorValue(line_follower_right) > line_sensor_threashold;
+				leftSeeLine = SensorValue(line_follower_left) > line_sensor_threashold;
+				middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
+			} else {
+				break;
+			}
 		}
 	}
 }
