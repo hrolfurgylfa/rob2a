@@ -205,6 +205,35 @@ void drive_line(int speed, int threshold) {
 	}
 }
 
+void find_line(bool turnRight, int speed, int line_sensor_threashold) {
+	int rightWheelSpeed;
+	int leftWheelSpeed;
+
+	if (turnRight) {
+		rightWheelSpeed = speed * -1;
+		leftWheelSpeed = speed;
+	} else {
+		rightWheelSpeed = speed;
+		leftWheelSpeed = speed * -1;
+	}
+
+	bool rightSeeLine = SensorValue(line_follower_right) > line_sensor_threashold;
+	bool leftSeeLine = SensorValue(line_follower_left) > line_sensor_threashold;
+	bool middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
+
+	while (!middleSeeLine) {
+		motor[right_motor] = rightWheelSpeed;
+		motor[left_motor] = leftWheelSpeed;
+
+		rightSeeLine = SensorValue(line_follower_right) > line_sensor_threashold;
+		leftSeeLine = SensorValue(line_follower_left) > line_sensor_threashold;
+		middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
+	}
+
+	motor[right_motor] = 0;
+	motor[left_motor] = 0;
+}
+
 void finna_glas(int speed, int time_claw, int time_arm){
 
 	motor[claw_motor] = speed;
@@ -237,7 +266,7 @@ void sleppa_glasi(int speed, int time_claw){
 	wait1Msec(time_claw);
 }
 
-void find_line(bool lastRightSeeLine, bool lastLeftSeeLine, bool lastMiddleSeeLine, int speed, int line_sensor_threashold) {
+void return_to_line(bool lastRightSeeLine, bool lastLeftSeeLine, bool lastMiddleSeeLine, int speed, int line_sensor_threashold) {
 	
 	bool middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
 
@@ -309,7 +338,7 @@ void drive_line_distance(float dist, int speed, int length_base_dist, int line_s
 		// Línan er búin
 		else {
 			writeDebugStream("Eg finn ekki linuuuuuuuu\n");
-			find_line(lastRightSeeLine, lastLeftSeeLine, lastMiddleSeeLine, 70, line_sensor_threashold);
+			return_to_line(lastRightSeeLine, lastLeftSeeLine, lastMiddleSeeLine, 70, line_sensor_threashold);
 			
 			rightSeeLine = SensorValue(line_follower_right) > line_sensor_threashold;
 			leftSeeLine = SensorValue(line_follower_left) > line_sensor_threashold;
