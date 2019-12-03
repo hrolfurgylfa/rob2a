@@ -205,34 +205,127 @@ void drive_line(int speed, int threshold) {
 	}
 }
 
-void find_line(bool turnRight, int speed, int line_sensor_threashold) {
-	int rightWheelSpeed;
-	int leftWheelSpeed;
-
-	if (turnRight) {
-		rightWheelSpeed = speed * -1;
-		leftWheelSpeed = speed;
-	} else {
-		rightWheelSpeed = speed;
-		leftWheelSpeed = speed * -1;
-	}
+void find_line(bool lastRightSeeLine, bool lastLeftSeeLine, bool lastMiddleSeeLine, int speed, int line_sensor_threashold) {
 	
-	bool rightSeeLine = SensorValue(line_follower_right) > line_sensor_threashold;
-	bool leftSeeLine = SensorValue(line_follower_left) > line_sensor_threashold;
 	bool middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
 
 	while (!middleSeeLine) {
-		motor[right_motor] = rightWheelSpeed;
-		motor[left_motor] = leftWheelSpeed;
+		if (lastRightSeeLine && lastLeftSeeLine) {
+			motor[right_motor] = 0;
+			motor[left_motor] = 0;
+		}
+		else if (lastRightSeeLine) {
+			motor[right_motor] = 0;
+			motor[left_motor] = 60;
+		}
+		else if (lastLeftSeeLine) {
+			motor[right_motor] = 60;
+			motor[left_motor] = 0;
+		}
 
-		rightSeeLine = SensorValue(line_follower_right) > line_sensor_threashold;
-		leftSeeLine = SensorValue(line_follower_left) > line_sensor_threashold;
 		middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
 	}
 
 	motor[right_motor] = 0;
 	motor[left_motor] = 0;
 }
+
+void drive_line_distance(float dist, int speed, int length_base_dist, int line_sensor_threashold) {
+	
+	SensorValue[quadrature_right] = 0;	  // quadrature_right skynjarinn settur á 0 svo að það sé hgt að nota það í reikningana
+	SensorValue[quadrature_left]  = 0;	  // quadrature_left skynjarinn settur á 0 svo að það sé hgt að nota það í reikningana
+	
+	bool rightSeeLine = SensorValue(line_follower_right) > line_sensor_threashold;
+	bool leftSeeLine = SensorValue(line_follower_left) > line_sensor_threashold;
+	bool middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
+	
+	bool lastRightSeeLine = rightSeeLine;
+	bool lastLeftSeeLine = leftSeeLine;
+	bool lastMiddleSeeLine = middleSeeLine;
+
+	writeDebugStream("Eg er ad fara inn i while loop\n");
+	while(dist * length_base_dist > abs(SensorValue[quadrature_right])) {
+
+		writeDebugStream("Eg er ad keyra while looooops\n");
+		
+		lastRightSeeLine = rightSeeLine;
+		lastLeftSeeLine = leftSeeLine;
+		lastMiddleSeeLine = middleSeeLine;
+
+		rightSeeLine = SensorValue(line_follower_right) > line_sensor_threashold;
+		leftSeeLine = SensorValue(line_follower_left) > line_sensor_threashold;
+		middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
+
+		// Ef myðju skynjarinn sér eitthvað þá heldur róbotinn bara áfram
+		if(middleSeeLine) {
+			// go straight
+			motor[left_motor] = speed;
+			motor[right_motor] = speed;
+		}
+		// Right sensor sér ekki línu en left sensor sér línu
+		else if(!rightSeeLine && (leftSeeLine || middleSeeLine)) {
+			// Begja til vinstri
+			motor[left_motor] = speed/2;
+			motor[right_motor] = speed;
+		}
+		// Left sensor sér ekki línu en right sensor sér línu
+		else if(!leftSeeLine && (rightSeeLine || middleSeeLine)) {
+			// Begja til hægri
+			motor[left_motor] = speed;
+			motor[right_motor] = speed/2;
+		}
+		// Línan er búin
+		else {
+			writeDebugStream("Eg finn ekki linuuuuuuuu\n");
+			find_line(lastRightSeeLine, lastLeftSeeLine, lastMiddleSeeLine, 70, line_sensor_threashold);
+			
+			rightSeeLine = SensorValue(line_follower_right) > line_sensor_threashold;
+			leftSeeLine = SensorValue(line_follower_left) > line_sensor_threashold;
+			middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
+		}
+	}
+}
+
+// void drive_line_limited_distance(int speed, float max_dist, int threshold) {
+	
+// 	SensorValue[quadrature_right] = 0;	  // quadrature_right skynjarinn settur á 0 svo að það sé hgt að nota það í reikningana
+// 	SensorValue[quadrature_left]  = 0;	  // quadrature_left skynjarinn settur á 0 svo að það sé hgt að nota það í reikningana
+
+// 	// Þetta keyrir þangað til quadrature_right skynjarinn segir að það sé búið að keyra nógu langt
+// 	while(max_dist * BASE_DEGREES_FOR_METER > abs(SensorValue[quadrature_right])) {
+
+// 		bool rightSeeLine = SensorValue(line_follower_right) > threshold;
+// 		bool leftSeeLine = SensorValue(line_follower_left) > threshold;
+// 		bool middleSeeLine = SensorValue(line_follower_middle) > threshold;
+
+// 		// Ef myðju skynjarinn sér eitthvað þá heldur róbotinn bara áfram
+// 		if(middleSeeLine) {
+// 			writeDebugStream("Keyri beint\n");
+// 			// go straight
+// 			motor[left_motor] = speed;
+// 			motor[right_motor] = speed;
+// 		}
+
+// 		// Right sensor sér ekki línu en left sensor sér línu
+// 		else if(!rightSeeLine && (leftSeeLine || middleSeeLine)) {
+// 			// Begja til vinstri
+// 			motor[left_motor] = 0;
+// 			motor[right_motor] = speed;
+// 		}
+// 		// Left sensor sér ekki línu en right sensor sér línu
+// 		else if(!leftSeeLine && (rightSeeLine || middleSeeLine)) {
+// 			// Begja til hægri
+// 			motor[left_motor] = speed;
+// 			motor[right_motor] = 0;
+// 		}
+// 		// Línan er búin
+// 		else {
+// 			motor[left_motor] = 0;
+// 			motor[right_motor] = 0;
+// 			break;
+// 		}
+// 	}
+// }
 
 // void drive_turn_line(int* drive_turn_list, int BASE_DEGREES_FOR_METER, float BASE_TURN, int arrey_length){
 // 	// Hérna nota ég variable sem var sent inn í fallið, arrey_length, vegna þess að það er ekki hægt að ná lengdini af pointer list
@@ -260,103 +353,6 @@ void find_line(bool turnRight, int speed, int line_sensor_threashold) {
 // 			// writeDebugStream("Begja: %d \n",abs(num_2));
 // 			turn(abs(num_2), direction, BASE_TURN);// Turn fallið keyrt
 // 			wait1Msec(1000);// Hérna er beðið svo að róbótinn verði nákvæmari þegar hann er að keyra brautina
-// 		}
-// 	}
-// }
-
-void drive_line_limited_distance(int speed, float max_dist, int threshold) {
-	
-	SensorValue[quadrature_right] = 0;	  // quadrature_right skynjarinn settur á 0 svo að það sé hgt að nota það í reikningana
-	SensorValue[quadrature_left]  = 0;	  // quadrature_left skynjarinn settur á 0 svo að það sé hgt að nota það í reikningana
-
-	// Þetta keyrir þangað til quadrature_right skynjarinn segir að það sé búið að keyra nógu langt
-	while(max_dist * BASE_DEGREES_FOR_METER > abs(SensorValue[quadrature_right])) {
-
-		bool rightSeeLine = SensorValue(line_follower_right) > threshold;
-		bool leftSeeLine = SensorValue(line_follower_left) > threshold;
-		bool middleSeeLine = SensorValue(line_follower_middle) > threshold;
-
-		// Ef myðju skynjarinn sér eitthvað þá heldur róbotinn bara áfram
-		if(middleSeeLine) {
-			writeDebugStream("Keyri beint\n");
-			// go straight
-			motor[left_motor] = speed;
-			motor[right_motor] = speed;
-		}
-
-		// Right sensor sér ekki línu en left sensor sér línu
-		else if(!rightSeeLine && (leftSeeLine || middleSeeLine)) {
-			// Begja til vinstri
-			motor[left_motor] = 0;
-			motor[right_motor] = speed;
-		}
-		// Left sensor sér ekki línu en right sensor sér línu
-		else if(!leftSeeLine && (rightSeeLine || middleSeeLine)) {
-			// Begja til hægri
-			motor[left_motor] = speed;
-			motor[right_motor] = 0;
-		}
-		// Línan er búin
-		else {
-			motor[left_motor] = 0;
-			motor[right_motor] = 0;
-			break;
-		}
-	}
-}
-
-// void drive_line_distance(float dist, int speed, int length_base_dist, int line_sensor_threashold) {
-	
-// 	SensorValue[quadrature_right] = 0;	  // quadrature_right skynjarinn settur á 0 svo að það sé hgt að nota það í reikningana
-// 	SensorValue[quadrature_left]  = 0;	  // quadrature_left skynjarinn settur á 0 svo að það sé hgt að nota það í reikningana
-	
-// 	bool rightSeeLine = SensorValue(line_follower_right) > line_sensor_threashold;
-// 	bool leftSeeLine = SensorValue(line_follower_left) > line_sensor_threashold;
-// 	bool middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
-	
-// 	bool lastRightSeeLine = rightSeeLine;
-// 	bool lastLeftSeeLine = leftSeeLine;
-// 	bool lastMiddleSeeLine = middleSeeLine;
-
-// 	writeDebugStream("Eg er ad fara inn i while loop\n");
-// 	while(dist * length_base_dist > abs(SensorValue[quadrature_right])) {
-
-// 		writeDebugStream("Eg er ad keyra while looooops\n");
-		
-// 		lastRightSeeLine = rightSeeLine;
-// 		lastLeftSeeLine = leftSeeLine;
-// 		lastMiddleSeeLine = middleSeeLine;
-
-// 		rightSeeLine = SensorValue(line_follower_right) > line_sensor_threashold;
-// 		leftSeeLine = SensorValue(line_follower_left) > line_sensor_threashold;
-// 		middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
-
-// 		// Ef myðju skynjarinn sér eitthvað þá heldur róbotinn bara áfram
-// 		if(middleSeeLine) {
-// 			// go straight
-// 			motor[left_motor] = speed;
-// 			motor[right_motor] = speed;
-// 		}
-// 		// Right sensor sér ekki línu en left sensor sér línu
-// 		else if(!rightSeeLine && (leftSeeLine || middleSeeLine)) {
-// 			// Begja til vinstri
-// 			motor[left_motor] = speed/2;
-// 			motor[right_motor] = speed;
-// 		}
-// 		// Left sensor sér ekki línu en right sensor sér línu
-// 		else if(!leftSeeLine && (rightSeeLine || middleSeeLine)) {
-// 			// Begja til hægri
-// 			motor[left_motor] = speed;
-// 			motor[right_motor] = speed/2;
-// 		}
-// 		// Línan er búin
-// 		else {
-// 			writeDebugStream("Eg finn ekki linuuuuuuuu\n");
-// 			find_line(lastRightSeeLine, lastLeftSeeLine, lastMiddleSeeLine, 70, line_sensor_threashold);
-			
-// 			rightSeeLine = SensorValue(line_follower_right) > line_sensor_threashold;
-// 			leftSeeLine = SensorValue(line_follower_left) > line_sensor_threashold;
-// 			middleSeeLine = SensorValue(line_follower_middle) > line_sensor_threashold;
 // 		}
 // 	}
 // }

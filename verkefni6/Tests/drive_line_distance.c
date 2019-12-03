@@ -24,10 +24,7 @@
 
 task main(){
 	StartTask(emergency_stop);
-		while(true){
-    	drive_line_limited_distance(60, 0.5, LINE_THREASHOLD);
-    	find_line(false, 90, LINE_THREASHOLD);
-  	}
+  	drive_line_distance(2, 60, BASE_DEGREES_FOR_METER, LINE_THREASHOLD);
     writeDebugStream("Eg er buinnnnnnn!!!\n");
 }
 
